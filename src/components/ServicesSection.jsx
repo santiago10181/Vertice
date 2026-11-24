@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from './Button.jsx';
+import { SiteLink } from './SiteLink.jsx';
 import { MediaImage } from './MediaImage.jsx';
 
 /**
@@ -7,8 +8,8 @@ import { MediaImage } from './MediaImage.jsx';
  * Los botones se manejan con React; los datos viven en src/config/site.js.
  * Cada servicio cambia el visual, la descripción y la llamada a la acción.
  */
-export function ServicesSection({ id = 'servicios', eyebrow, heading, caption, items = [], action }) {
-  const [activeId, setActiveId] = useState(items[0]?.id);
+export function ServicesSection({ id = 'servicios', eyebrow, heading, caption, items = [], action, initialServiceId }) {
+  const [activeId, setActiveId] = useState(initialServiceId ?? items[0]?.id);
   const active = items.find((item) => item.id === activeId) ?? items[0];
   const headingId = `${id}-title`;
 
@@ -31,66 +32,61 @@ export function ServicesSection({ id = 'servicios', eyebrow, heading, caption, i
     >
       <div className="mb-11 flex flex-wrap items-end justify-between gap-6 max-[700px]:mb-8">
         <div className="max-w-[760px]">
-          <p className="mb-4 font-code text-xs tracking-[.09em] text-brand-blue">{eyebrow}</p>
-          <h2 id={headingId} className="font-display text-[clamp(34px,4vw,58px)] leading-[1.1] font-normal tracking-[-.053em] text-balance">
+          <p className="mb-4 type-label text-brand-olive">{eyebrow}</p>
+          <h2 id={headingId} className="type-heading text-balance">
             {heading}
           </h2>
         </div>
-        <p className="pb-2 font-code text-xs tracking-wide text-brand-muted">{caption}</p>
+        <p className="pb-2 type-label text-brand-muted">{caption}</p>
       </div>
 
-      <div className="grid items-stretch gap-[clamp(26px,4vw,60px)] min-[960px]:grid-cols-2">
-        <div className="relative isolate min-h-[530px] overflow-hidden rounded-lg bg-brand-dark max-[960px]:min-h-0 max-[960px]:aspect-[6/5] max-[540px]:aspect-[4/4]">
+      <div className="grid items-center gap-[clamp(26px,4vw,60px)] min-[960px]:grid-cols-2">
+        <figure className="relative m-0 aspect-square self-start overflow-hidden rounded-xl bg-brand-dark max-[959px]:aspect-[5/4] max-[540px]:aspect-square">
           {active && (
             <MediaImage
               key={active.id}
               src={active.image}
               alt={active.imageAlt}
-              className="animate-service-reveal object-center"
-              loading="eager"
+              width={508}
+              height={508}
+              position={active.imagePosition ?? 'center'}
+              className="absolute inset-0 animate-service-reveal"
             />
           )}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-linear-to-t from-brand-dark/85 to-transparent" />
-          <div className="pointer-events-none absolute right-6 bottom-6 left-6 flex items-end justify-between gap-4 text-white" aria-hidden="true">
-            <div>
-              <span className="font-code text-[11px] tracking-widest text-brand-green">VÉRTICE / SOLUCIONES</span>
-              <p className="mt-2 font-display text-[clamp(22px,2.35vw,34px)] leading-tight tracking-tight">{active?.title}</p>
-            </div>
-            <span className="font-code text-3xl text-white/50">{active?.number}</span>
-          </div>
-        </div>
+        </figure>
 
         <div className="flex min-w-0 flex-col justify-center gap-1" aria-label="Seleccionar una solución">
           {items.map((service, index) => {
             const selected = active?.id === service.id;
             return (
-              <div key={service.id} className="border-b border-brand-blue/18 first:border-t">
+              <div key={service.id} className="border-b border-brand-olive/25 first:border-t">
                 <button
                   data-service-select
                   type="button"
                   aria-pressed={selected}
                   onClick={() => setActiveId(service.id)}
                   onKeyDown={(event) => handleKeyDown(event, index)}
-                  className={`group w-full cursor-pointer py-6 text-left transition-colors duration-300 focus-visible:outline-offset-[-3px] max-[700px]:py-5 ${selected ? 'text-brand-dark' : 'text-brand-muted hover:text-brand-blue'}`}
+                  className={`group w-full cursor-pointer py-6 text-left transition-colors duration-300 focus-visible:outline-offset-[-3px] max-[700px]:py-5 ${selected ? 'text-brand-dark' : 'text-brand-muted hover:text-brand-olive'}`}
                 >
                   <span className="flex items-baseline gap-4">
-                    <span className={`font-code text-[11px] tabular-nums ${selected ? 'text-brand-blue' : 'text-brand-muted/70'}`}>{service.number}</span>
-                    <span className="font-display text-[clamp(22px,2.15vw,32px)] leading-tight tracking-[-.043em]">{service.title}</span>
-                    <span aria-hidden="true" className={`ml-auto text-2xl leading-none transition-transform duration-300 ${selected ? 'rotate-45 text-brand-blue' : 'text-brand-muted group-hover:translate-x-1'}`}>↗</span>
+                    <span className={`type-label tabular-nums ${selected ? 'text-brand-olive' : 'text-brand-muted'}`}>{service.number}</span>
+                    <span className="type-card-heading">{service.title}</span>
+                    <span aria-hidden="true" className={`ml-auto text-2xl leading-none transition-transform duration-300 ${selected ? 'rotate-45 text-brand-olive' : 'text-brand-muted group-hover:translate-x-1'}`}>↗</span>
                   </span>
                   {selected && (
                     <span id={`${id}-detalle`} className="mt-4 block pl-[32px]">
-                      <span className="block max-w-[530px] font-display text-[15px] leading-[1.55] text-brand-blue">{service.description}</span>
-                      <span className="mt-4 block font-code text-[11px] leading-5 tracking-wide text-brand-blue">{service.detail}</span>
+                      <span className="block max-w-[530px] type-body text-brand-olive">{service.description}</span>
+                      <span className="mt-4 block type-label text-brand-olive">{service.detail}</span>
                     </span>
                   )}
                 </button>
                 <div className="h-[2px] w-full bg-transparent">
-                  <div className={`h-full bg-brand-blue transition-[width] duration-500 ease-emphasis ${selected ? 'w-[26%]' : 'w-0'}`} />
+                  <div className={`h-full bg-brand-olive transition-[width] duration-500 ease-emphasis ${selected ? 'w-[26%]' : 'w-0'}`} />
                 </div>
               </div>
             );
           })}
+          {active?.href && <SiteLink href={active.href} className="mt-5 self-start type-label text-brand-olive underline underline-offset-4 hover:text-brand-dark">CONOCER ESTA SOLUCIÓN ↗</SiteLink>}
           {action && (
             <div className="mt-8">
               <Button {...action} />

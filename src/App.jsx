@@ -1,27 +1,26 @@
-import { site } from './config/site.js';
-import { Header } from './components/Header.jsx';
-import { Hero } from './components/Hero.jsx';
-import { ServicesSection } from './components/ServicesSection.jsx';
-import { IntroSection } from './components/IntroSection.jsx';
-import { ProblemSection } from './components/ProblemSection.jsx';
-import { PlatformSection } from './components/PlatformSection.jsx';
-import { ContactCtaSection } from './components/ContactCtaSection.jsx';
-import { Footer } from './components/Footer.jsx';
+import { Routes, Route, Navigate } from 'react-router';
+import { MainLayout } from './layouts/MainLayout.jsx';
+import { HomePage } from './pages/HomePage.jsx';
+import { AboutPage } from './pages/AboutPage.jsx';
+import { ServicesPage } from './pages/ServicesPage.jsx';
+import { ServiceDetailPage } from './pages/ServiceDetailPage.jsx';
+import { NewsPage } from './pages/NewsPage.jsx';
+import { NewsDetailPage } from './pages/NewsDetailPage.jsx';
+import { NotFoundPage } from './pages/NotFoundPage.jsx';
 
-/** Un único árbol JSX: todas las secciones usan contenidos de site.js. */
 export function App() {
   return (
-    <>
-      <Header brand={site.brand} navigation={site.navigation} contact={site.contact} />
-      <main id="contenido">
-        <Hero hero={site.hero} />
-        <ServicesSection {...site.services} />
-        <IntroSection {...site.intro} />
-        <ProblemSection {...site.problem} />
-        <PlatformSection {...site.platform} />
-        <ContactCtaSection {...site.contactCta} />
-      </main>
-      <Footer {...site.footer} home={site.brand.home} brandName={site.brand.name} />
-    </>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="quienes-somos" element={<AboutPage />} />
+        <Route path="servicios" element={<ServicesPage />} />
+        <Route path="servicios/:serviceId" element={<ServiceDetailPage />} />
+        <Route path="noticias" element={<NewsPage />} />
+        <Route path="noticias/:newsId" element={<NewsDetailPage />} />
+        <Route path="recursos" element={<Navigate to="/noticias" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }

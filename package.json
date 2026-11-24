@@ -1,7 +1,7 @@
 {
   "name": "vertice-landing-react-servicios",
   "private": true,
-  "version": "6.0.0",
+  "version": "15.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-router": "^7.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",

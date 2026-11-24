@@ -6,6 +6,7 @@ export function MediaImage({
   height,
   className = '',
   loading = 'lazy',
+  position = 'center',
 }) {
   return (
     <img
@@ -15,6 +16,7 @@ export function MediaImage({
       height={height}
       loading={loading === 'eager' ? 'eager' : 'lazy'}
       decoding="async"
+      style={{ objectPosition: position }}
       className={`block h-full w-full object-cover ${className}`}
     />
   );

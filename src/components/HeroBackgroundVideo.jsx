@@ -67,7 +67,7 @@ export function HeroBackgroundVideo({ video = {} }) {
           onClick={togglePlayback}
           aria-label={playing ? 'Pausar video de fondo' : 'Reproducir video de fondo'}
           aria-pressed={playing}
-          className="absolute right-5 bottom-5 z-30 rounded-full border border-white/45 bg-black/65 px-4 py-2 font-code text-xs text-white backdrop-blur-sm transition hover:bg-black/85 focus-visible:outline-white"
+          className="absolute right-5 bottom-5 z-30 rounded-full border border-white/45 bg-black/65 px-4 py-2 type-label text-white backdrop-blur-sm transition hover:bg-black/85 focus-visible:outline-white"
         >
           {playing ? 'Ⅱ  Pausar' : '▶  Reproducir'}
         </button>

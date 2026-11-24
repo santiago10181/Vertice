@@ -1,3 +1,4 @@
+import { MemoryRouter } from 'react-router';
 import { describe, it, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { existsSync } from 'node:fs';
@@ -18,7 +19,7 @@ import { ContactCtaSection } from '../src/components/ContactCtaSection.jsx';
 import { FooterColumn } from '../src/components/FooterColumn.jsx';
 import { Footer } from '../src/components/Footer.jsx';
 
-const html = (element) => renderToStaticMarkup(element);
+const html = (element, path = "/") => renderToStaticMarkup(<MemoryRouter initialEntries={[path]}>{element}</MemoryRouter>);
 
 describe('Landing Vértice: JSX, DRY y arquitectura', () => {
   it('integra la sección de servicios inmediatamente después del hero', () => {
@@ -40,7 +41,8 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
     const out = html(<Header brand={site.brand} navigation={site.navigation} contact={site.contact} />);
     expect(out).toContain('aria-expanded="false"');
     expect(out).toContain('id="navegacion-principal"');
-    expect(out).toContain('SERVICIOS');
+    expect(out).toContain('Servicios');
+    expect(out).toContain('border-solid border-white');
   });
   it('el hero conserva un video configurable y su título', () => {
     const out = html(<Hero hero={site.hero} />);
@@ -65,10 +67,10 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
   it('la sección de servicios mantiene una sola fotografía visible y CTA compartido', () => {
     const out = html(<ServicesSection {...site.services} />);
     expect(out.match(/<img\b/g)).toHaveLength(1);
-    expect(out).toContain('ai-agents.svg');
+    expect(out).toContain('ai-agents.webp');
     expect(out).toContain('CONVERSEMOS SOBRE TU PROYECTO');
   });
-  it('los servicios se configuran desde site.js y tienen SVG disponible', () => {
+  it('los servicios se configuran desde site.js y tienen imágenes WebP disponibles', () => {
     for (const item of site.services.items) {
       expect(item.id).toMatch(/^[a-z-]+$/);
       expect(existsSync(`public${item.image}`)).toBe(true);
@@ -88,7 +90,7 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
   });
   it('IntroSection mantiene imagen independiente y descripción', () => {
     const out = html(<IntroSection {...site.intro} />);
-    expect(out).toContain('vertice-architecture.svg');
+    expect(out).toContain('vertice-team.webp');
     expect(out).toContain('Creamos tecnología');
   });
   it('ProblemSection conserva estadísticas sin afirmaciones de terceros', () => {
@@ -114,7 +116,7 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
   });
   it('ContactCtaSection muestra destino del contacto y mensaje', () => {
     const out = html(<ContactCtaSection {...site.contactCta} />);
-    expect(out).toContain('bg-brand-blue');
+    expect(out).toContain('bg-brand-olive');
     expect(out).toContain('HABLEMOS DE TU PROYECTO');
     expect(out).toContain('Pronto podrás escribirnos');
   });
@@ -126,5 +128,34 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
     const out = html(<Footer {...site.footer} brandName={site.brand.name} home={site.brand.home} />);
     expect(out.match(/<h3\b/g)).toHaveLength(4);
     expect(out).toContain('© 2026 Vértice');
+  });
+});
+
+
+describe('React Router: páginas y navegación', () => {
+  it.each([
+    ['/', 'hero-title'],
+    ['/quienes-somos', 'Construimos el futuro digital de las empresas.'],
+    ['/servicios', 'El siguiente nivel de tu tecnología.'],
+    ['/noticias', 'NOTICIAS Y PERSPECTIVAS'],
+  ])('renderiza %s con un layout compartido y enlace activo', (path, expected) => {
+    const out = html(<App />, path);
+    expect(out).toContain(expected);
+    expect(out.match(/<header\b/g)).toHaveLength(1);
+    expect(out.match(/<footer\b/g)).toHaveLength(1);
+    expect(out.match(/aria-current="page"/g)).toHaveLength(1);
+  });
+  it('permite enlazar a un servicio concreto con query params', () => {
+    const out = html(<App />, '/servicios?servicio=ciberseguridad');
+    expect(out).toContain('cybersecurity.webp');
+    expect(out).toContain(site.services.items.find(item => item.id === 'ciberseguridad').description);
+  });
+  it('muestra el nuevo enlace Noticias y elimina Recursos de la navbar', () => {
+    const out = html(<Header brand={site.brand} navigation={site.navigation} contact={site.contact} />, '/noticias');
+    expect(out).toContain('href="/noticias"');
+    expect(out).not.toContain('href="/recursos"');
+  });
+  it('muestra 404 para rutas desconocidas', () => {
+    expect(html(<App />, '/no-existe')).toContain('Esta página no existe.');
   });
 });

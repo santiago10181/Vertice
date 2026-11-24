@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
 import { Brand } from './Brand.jsx';
 import { Navbar } from './Navbar.jsx';
@@ -7,6 +8,8 @@ import { MenuIcon } from './Icons.jsx';
 export function Header({ brand, navigation, contact }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  useEffect(() => setMenuOpen(false), [location.key]);
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
 
@@ -54,7 +57,7 @@ export function Header({ brand, navigation, contact }) {
       data-header
       data-open={menuOpen}
       data-scrolled={scrolled}
-      className="group fixed z-50 flex min-h-20 items-center justify-between gap-6 rounded-xl bg-brand-dark px-6 py-3 text-white shadow-lg transition-[top] duration-300 top-[clamp(34px,4.2vw,58px)] right-[clamp(30px,4.2vw,58px)] left-[clamp(30px,4.2vw,58px)] data-[scrolled=true]:top-[22px] max-[1100px]:min-h-[72px] max-[1100px]:px-[18px] max-[1100px]:py-3.5 max-[700px]:top-6 max-[700px]:right-6 max-[700px]:left-6"
+      className="site-header on-dark group fixed z-50 flex min-h-20 items-center justify-between gap-6 rounded-xl border border-solid border-white bg-brand-dark px-6 py-3 text-white shadow-lg transition-[top] duration-300 top-[clamp(34px,4.2vw,58px)] right-[clamp(30px,4.2vw,58px)] left-[clamp(30px,4.2vw,58px)] data-[scrolled=true]:top-[22px] max-[1100px]:min-h-[72px] max-[1100px]:px-[18px] max-[1100px]:py-3.5 max-[700px]:top-6 max-[700px]:right-6 max-[700px]:left-6"
     >
       <Brand {...brand} />
 
@@ -73,6 +76,7 @@ export function Header({ brand, navigation, contact }) {
       <Navbar
         links={navigation}
         contact={contact}
+        mobileOpen={menuOpen}
         onNavigate={() => setMenuOpen(false)}
       />
     </header>
