@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="880" viewBox="0 0 1000 880" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="890" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#131B2B"/>
+      <stop offset="1" stop-color="#2F4A63"/>
+    </linearGradient>
+    <linearGradient id="mintLine" x1="188" y1="151" x2="792" y2="654" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CFEAE0"/>
+      <stop offset="1" stop-color="#7FB8AA"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(500 430) rotate(90) scale(240)">
+      <stop stop-color="#CFEAE0" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#CFEAE0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-50" y="-50" width="1100" height="980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#0A111D" flood-opacity="0.42"/>
+    </filter>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#CFEAE0" fill-opacity="0.12"/>
+    </pattern>
+    <style>
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 50px; font-weight: 700; fill: #F7FBF9; }
+      .eyebrow { font-family: Arial, Helvetica, sans-serif; font-size: 18px; letter-spacing: 2px; font-weight: 600; fill: #CFEAE0; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 19px; font-weight: 700; fill: #F7FBF9; }
+      .body { font-family: Arial, Helvetica, sans-serif; font-size: 16px; fill: #C5D6DE; }
+    </style>
+  </defs>
+
+  <rect width="1000" height="880" rx="0" fill="url(#bg)"/>
+  <rect width="1000" height="880" fill="url(#dots)"/>
+  <circle cx="500" cy="430" r="250" fill="url(#coreGlow)"/>
+  <path d="M72 705C233 611 344 694 502 605C662 516 762 334 929 377" stroke="#CFEAE0" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M96 742C275 650 393 742 540 667C687 592 767 458 922 481" stroke="#CFEAE0" stroke-opacity="0.08" stroke-width="2"/>
+
+  <text x="64" y="84" class="eyebrow">AI AGENTS / ORCHESTRATION</text>
+  <text x="64" y="146" class="title">Automatización inteligente, coordinada.</text>
+
+  <g stroke="url(#mintLine)" stroke-width="4">
+    <path d="M500 430L270 260"/>
+    <path d="M500 430L732 256"/>
+    <path d="M500 430L246 620"/>
+    <path d="M500 430L748 626"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <circle cx="500" cy="430" r="132" fill="#162336" stroke="#CFEAE0" stroke-opacity="0.55" stroke-width="2"/>
+    <circle cx="500" cy="430" r="102" fill="#20344A" stroke="#CFEAE0" stroke-opacity="0.35" stroke-width="1.5"/>
+    <circle cx="500" cy="430" r="66" fill="#CFEAE0" fill-opacity="0.14"/>
+    <path d="M500 360L559 394V466L500 500L441 466V394L500 360Z" stroke="#CFEAE0" stroke-width="5"/>
+    <circle cx="500" cy="430" r="18" fill="#CFEAE0"/>
+    <path d="M500 378V402M500 458V481M451 430H476M524 430H548" stroke="#F7FBF9" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="94" y="195" width="260" height="132" rx="24" fill="#1C2B40" stroke="#CFEAE0" stroke-opacity="0.18"/>
+    <circle cx="136" cy="242" r="13" fill="#CFEAE0"/>
+    <text x="166" y="249" class="label">Asistencia</text>
+    <text x="126" y="291" class="body">Consultas, soporte y autoservicio</text>
+
+    <rect x="648" y="191" width="258" height="132" rx="24" fill="#1C2B40" stroke="#CFEAE0" stroke-opacity="0.18"/>
+    <circle cx="689" cy="238" r="13" fill="#CFEAE0"/>
+    <text x="719" y="245" class="label">Ventas</text>
+    <text x="680" y="287" class="body">Agentes comerciales y seguimiento</text>
+
+    <rect x="82" y="557" width="284" height="132" rx="24" fill="#1C2B40" stroke="#CFEAE0" stroke-opacity="0.18"/>
+    <circle cx="125" cy="604" r="13" fill="#CFEAE0"/>
+    <text x="156" y="611" class="label">Integraciones</text>
+    <text x="116" y="653" class="body">Conexión con CRM, ERP y datos</text>
+
+    <rect x="635" y="555" width="287" height="132" rx="24" fill="#1C2B40" stroke="#CFEAE0" stroke-opacity="0.18"/>
+    <circle cx="678" cy="602" r="13" fill="#CFEAE0"/>
+    <text x="709" y="609" class="label">Operación</text>
+    <text x="669" y="651" class="body">Ejecución coordinada de tareas</text>
+  </g>
+
+  <g fill="#CFEAE0">
+    <circle cx="337" cy="311" r="7"/>
+    <circle cx="664" cy="307" r="7"/>
+    <circle cx="350" cy="566" r="7"/>
+    <circle cx="651" cy="563" r="7"/>
+  </g>
+</svg>

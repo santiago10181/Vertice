@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="650" viewBox="0 0 780 650" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="48" y1="32" x2="720" y2="618" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#131B2B"/>
+      <stop offset="1" stop-color="#2F4A63"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#CFEAE0"/>
+      <stop offset="1" stop-color="#A4CEC1"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="780" height="650" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0B1220" flood-opacity="0.35"/>
+    </filter>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#CFEAE0" fill-opacity="0.13"/>
+    </pattern>
+  </defs>
+
+  <rect width="780" height="650" rx="0" fill="url(#bg)"/>
+  <rect width="780" height="650" fill="url(#dots)"/>
+
+  <g stroke="#CFEAE0" stroke-opacity="0.5" stroke-width="2.5">
+    <path d="M94 524L207 441L332 482L468 390L673 453"/>
+    <path d="M207 441L286 293L468 390L580 241"/>
+    <circle cx="207" cy="441" r="6" fill="#CFEAE0"/>
+    <circle cx="468" cy="390" r="6" fill="#CFEAE0"/>
+    <circle cx="580" cy="241" r="6" fill="#CFEAE0"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="92" y="100" width="586" height="416" rx="26" fill="#F7FBF9"/>
+    <path d="M92 126C92 111.641 103.641 100 118 100H652C666.359 100 678 111.641 678 126V184H92V126Z" fill="#203246"/>
+    <circle cx="129" cy="142" r="8" fill="#CFEAE0"/>
+    <circle cx="156" cy="142" r="8" fill="#698092"/>
+    <circle cx="183" cy="142" r="8" fill="#698092"/>
+    <text x="235" y="149" style="font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;fill:#EAF5F1">VÉRTICE / ARCHITECTURE MAP</text>
+
+    <rect x="120" y="216" width="176" height="118" rx="16" fill="#E8F4EF"/>
+    <text x="142" y="249" style="font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;fill:#587081">NEGOCIO</text>
+    <text x="142" y="300" style="font-family:Arial,Helvetica,sans-serif;font-size:28px;font-weight:700;fill:#131B2B">Procesos</text>
+
+    <rect x="320" y="216" width="316" height="118" rx="16" fill="#E8F4EF"/>
+    <path d="M345 292L391 271L439 280L485 245L531 258L576 236L612 252" stroke="#2F4A63" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="486" cy="245" r="7" fill="#CFEAE0"/>
+
+    <rect x="120" y="357" width="516" height="122" rx="16" fill="#FFFFFF"/>
+    <g fill="#D8E6E0">
+      <rect x="144" y="385" width="190" height="15" rx="7.5"/>
+      <rect x="144" y="411" width="131" height="10" rx="5"/>
+      <rect x="144" y="434" width="164" height="10" rx="5"/>
+    </g>
+    <rect x="392" y="381" width="212" height="60" rx="12" fill="url(#accent)"/>
+    <text x="434" y="417" style="font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;fill:#131B2B">IA + Integraciones</text>
+  </g>
+
+  <circle cx="640" cy="486" r="56" fill="#CFEAE0" fill-opacity="0.18"/>
+  <circle cx="640" cy="486" r="30" fill="#CFEAE0"/>
+  <path d="M628 486L638 496L655 475" stroke="#1F3146" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

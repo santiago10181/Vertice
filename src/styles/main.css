@@ -1,0 +1,40 @@
+/* Tailwind CSS v4: integración oficial con @tailwindcss/vite */
+@import "tailwindcss";
+
+/* Tokens compartidos por TODA la landing. */
+@theme {
+  --color-brand-dark: #131B2B;
+  --color-brand-blue: #2F4A63;
+  --color-brand-green: #CFEAE0;
+  --color-brand-green-hover: #DDF2EB;
+  --color-brand-light: #E6F3EE;
+  --color-brand-paper: #F5F9F7;
+  --color-brand-muted: #728399;
+  --color-brand-forest: #1F3146;
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-code: "Courier New", Courier, monospace;
+  --ease-emphasis: cubic-bezier(.2, .8, .2, 1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { background: var(--color-brand-paper); }
+  :focus-visible { outline: 3px solid var(--color-brand-blue); outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      transition-duration: .01ms !important;
+    }
+  }
+}
+
+@keyframes service-reveal {
+  from { opacity: .4; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@utility animate-service-reveal { animation: service-reveal 480ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-service-reveal { animation: none !important; }
+}

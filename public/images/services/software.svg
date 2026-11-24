@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="880" viewBox="0 0 1000 880" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="890" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#131B2B"/>
+      <stop offset="1" stop-color="#2F4A63"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F7FBF9"/>
+      <stop offset="1" stop-color="#E8F4EF"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#CFEAE0"/>
+      <stop offset="1" stop-color="#8FB6AB"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.1" fill="#CFEAE0" fill-opacity="0.12"/>
+    </pattern>
+    <filter id="shadow" x="0" y="0" width="1000" height="880" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#09111C" flood-opacity="0.36"/>
+    </filter>
+    <style>
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: 700; fill: #F7FBF9; }
+      .eyebrow { font-family: Arial, Helvetica, sans-serif; font-size: 18px; letter-spacing: 2px; font-weight: 600; fill: #CFEAE0; }
+      .h1 { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 700; fill: #21364A; }
+      .p1 { font-family: Arial, Helvetica, sans-serif; font-size: 15px; fill: #5B7184; }
+      .big { font-family: Arial, Helvetica, sans-serif; font-size: 46px; font-weight: 700; fill: #131B2B; }
+      .mini { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; fill: #DCEAE5; }
+    </style>
+  </defs>
+
+  <rect width="1000" height="880" fill="url(#bg)"/>
+  <rect width="1000" height="880" fill="url(#dots)"/>
+  <text x="64" y="84" class="eyebrow">SOFTWARE / DIGITAL PRODUCTS</text>
+  <text x="64" y="145" class="title">Una plataforma, muchas posibilidades.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="78" y="202" width="844" height="542" rx="28" fill="url(#screen)"/>
+    <path d="M78 230C78 214.536 90.536 202 106 202H894C909.464 202 922 214.536 922 230V292H78V230Z" fill="#21364A"/>
+    <circle cx="121" cy="247" r="8" fill="#CFEAE0"/>
+    <circle cx="148" cy="247" r="8" fill="#7E97A8"/>
+    <circle cx="175" cy="247" r="8" fill="#7E97A8"/>
+    <text x="236" y="253" class="mini">VÉRTICE / PRODUCT STUDIO</text>
+
+    <rect x="108" y="325" width="178" height="387" rx="20" fill="#203246"/>
+    <rect x="130" y="356" width="134" height="14" rx="7" fill="#CFEAE0" fill-opacity="0.9"/>
+    <rect x="130" y="401" width="101" height="10" rx="5" fill="#5B7184"/>
+    <rect x="130" y="438" width="119" height="10" rx="5" fill="#5B7184"/>
+    <rect x="130" y="475" width="95" height="10" rx="5" fill="#5B7184"/>
+    <rect x="130" y="512" width="116" height="10" rx="5" fill="#5B7184"/>
+    <rect x="130" y="549" width="83" height="10" rx="5" fill="#5B7184"/>
+
+    <rect x="314" y="325" width="254" height="160" rx="20" fill="#FFFFFF"/>
+    <text x="340" y="364" class="p1">PROCESOS ORQUESTADOS</text>
+    <text x="340" y="427" class="big">1,248</text>
+    <path d="M473 419L494 395L519 408L540 365" stroke="#2F4A63" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="540" cy="365" r="9" fill="#CFEAE0"/>
+
+    <rect x="590" y="325" width="302" height="160" rx="20" fill="#FFFFFF"/>
+    <text x="617" y="364" class="p1">ESTADO DEL SISTEMA</text>
+    <circle cx="634" cy="421" r="12" fill="#CFEAE0"/>
+    <text x="661" y="428" class="h1">Operativo</text>
+    <rect x="617" y="452" width="232" height="10" rx="5" fill="#E3EEE9"/>
+    <rect x="617" y="452" width="162" height="10" rx="5" fill="#2F4A63"/>
+
+    <rect x="314" y="512" width="578" height="200" rx="20" fill="#FFFFFF"/>
+    <text x="341" y="551" class="h1">Evolución de productos</text>
+    <path d="M342 672H856M342 625H856M342 579H856" stroke="#E1ECE8" stroke-width="2"/>
+    <path d="M356 664L430 612L501 623L571 565L638 584L711 536L780 562L848 526" stroke="#2F4A63" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="571" cy="565" r="10" fill="#CFEAE0" stroke="#FFFFFF" stroke-width="5"/>
+    <rect x="708" y="586" width="139" height="75" rx="16" fill="url(#accent)"/>
+    <text x="732" y="628" class="h1">Escalable</text>
+  </g>
+</svg>
