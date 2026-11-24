@@ -4,6 +4,21 @@ import { useReducedMotion } from './useReducedMotion.js';
 // Memoria de esta carga del documento, no almacenamiento permanente.
 // Volver a Inicio mediante React Router no reinicia automáticamente el clip.
 const playedSources = new Set();
+const finalFrames = new Map();
+
+// Conserva el fotograma del MP4 real, incluso si el usuario cambió el archivo.
+function rememberFrame(src, element) {
+  if (!src || !element?.videoWidth || element.readyState < 2) return;
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.min(1600, element.videoWidth);
+    canvas.height = Math.round(canvas.width * element.videoHeight / element.videoWidth);
+    canvas.getContext('2d').drawImage(element, 0, 0, canvas.width, canvas.height);
+    finalFrames.set(src, canvas.toDataURL('image/webp', .85));
+  } catch {
+    // Si el recurso es externo y no permite CORS, se conserva el respaldo configurado.
+  }
+}
 const noop = () => {};
 
 export function useHeroPlayback(video = {}, onEntranceReady = noop) {
@@ -14,6 +29,7 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
   const [activated, setActivated] = useState(!seenOnMount);
   const [clip, setClip] = useState('main');
   const [ready, setReady] = useState(false);
+  const [startupExpired, setStartupExpired] = useState(false);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -58,10 +74,10 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     if (entranceDone.current) return;
     // No bloquear la portada por una conexión lenta o autoplay rechazado.
     startupTimer.current = setTimeout(() => {
-      allowPlayback.current = false;
-      setAutoplay(false);
-      player.current?.pause();
-      completeEntrance();
+      // La conexión lenta no cancela el autoplay ni muestra el poster antiguo.
+      // El contenido alcanza su tamaño final sin animación; el video puede empezar después.
+      setStartupExpired(true);
+      completeEntrance(false);
     }, startupTimeoutMs);
     return () => clearTimeout(startupTimer.current);
   }, [reducedMotion, seenOnMount, mp4, failed, startupTimeoutMs, completeEntrance]);
@@ -84,8 +100,9 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     completeEntrance();
   }
 
-  function handleEnded() {
+  function handleEnded(event) {
     setPlaying(false);
+    rememberFrame(mp4, event.currentTarget);
     if (clip === 'main' && outroMp4) {
       setReady(false);
       setStarted(false);
@@ -97,6 +114,16 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     setAutoplay(false);
     setFinished(true);
   }
+
+  // Si se abandona Inicio durante la reproducción, guarda el último cuadro visible.
+  // Capturamos el nodo en el efecto porque React puede limpiar el ref antes del cleanup.
+  useEffect(() => {
+    if (!shouldRender) return;
+    const element = player.current;
+    return () => {
+      if (playedSources.has(mp4)) rememberFrame(mp4, element);
+    };
+  }, [shouldRender, currentSrc, mp4]);
 
   const restart = useCallback(() => {
     if (reducedMotion !== false || failed) return;
@@ -149,8 +176,9 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
 
   return {
     player, currentSrc, shouldRender, autoplay, started, playing, finished,
-    showFinalPoster: seenOnMount || finished,
-    showControls: Boolean(mp4) && reducedMotion === false && !failed && (ready || seenOnMount),
+    staticFrame: finalFrames.get(mp4),
+    showFallback: reducedMotion === true || failed || (!shouldRender && seenOnMount),
+    showControls: Boolean(mp4) && reducedMotion === false && !failed && (ready || seenOnMount || startupExpired),
     handleReady: () => setReady(true), handlePlaying, handleEnded, handleError,
     handlePause: () => setPlaying(false), togglePlayback,
   };

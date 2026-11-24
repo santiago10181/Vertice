@@ -54,9 +54,11 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
     expect(site.hero.video.replayAfterMs).toBe(0);
     expect(existsSync(`public${site.hero.video.finalPoster}`)).toBe(true);
   });
-  it('el video tiene poster y no carga cuando SSR desconoce la preferencia de movimiento', () => {
+  it('no muestra el poster antiguo ni carga video cuando SSR desconoce la preferencia de movimiento', () => {
     const out = html(<HeroBackgroundVideo video={site.hero.video} />);
-    expect(out).toContain('hero-poster.jpg');
+    expect(out).not.toContain('hero-poster.jpg');
+    expect(out).not.toContain('hero-final.webp');
+    expect(out).toContain('hero-media-surface');
     expect(out).not.toContain('<video');
   });
   it('la nueva sección muestra los cuatro títulos, con el primero seleccionado', () => {
