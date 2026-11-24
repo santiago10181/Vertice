@@ -1,3 +1,16 @@
+# Vértice V17 — Zoom del contenedor Hero
+
+Aplica sobre V16. Copia `src/` y `tests/` a la raíz de tu proyecto, conservando tus demás archivos. No modifica dependencias, lockfile, imágenes ni videos.
+
+- El contenedor completo del Hero de Inicio crece de 96,5 % a 100 % en 1100 ms, centrado, sin cambios de layout.
+- Se retira el zoom interno del video de Inicio para evitar una escala doble. Se conserva el zoom de las portadas fotográficas de las otras rutas y la entrada escalonada de textos.
+- Navbar fija y movimiento reducido respetados.
+- Ajusta `--motion-hero-start-scale` y `--motion-hero-container` en `src/styles/motion.css`.
+
+Ejecuta `pnpm dev` y recarga Inicio. `pnpm test` y `pnpm build` para validar localmente.
+
+---
+
 # Vértice V15 — Navegación centrada y tipografía unificada
 
 - Navbar de escritorio con CSS Grid y `subgrid`: columnas laterales simétricas y enlaces centrados. Móvil conserva menú hamburguesa.
@@ -391,3 +404,13 @@ pnpm dev
 Abre `/quienes-somos`. Prueba el menú, la flecha de continuación, el desplazamiento del carrusel en móvil y la navegación de las otras rutas. El rewrite existente de Vercel no cambia. Conserva la carpeta `.git` y tu `pnpm-lock.yaml` al copiar los archivos sobre tu proyecto.
 
 Se comprobó la sintaxis de los módulos JS/JSX, las importaciones locales y los archivos de imagen. No se pudo instalar dependencias ni ejecutar Vitest o Vite porque el entorno no resuelve registry.npmjs.org. No se realizó una prueba visual en navegador.
+
+## V16 — Motion system
+
+- Entrada del Hero: zoom del fondo de 1 a 1.045 durante 1.4 s, una vez por visita a la ruta; el video y su control mantienen su funcionamiento.
+- Entrada de textos: desplazamiento de 14 px y aparición progresiva de 650 ms, escalonada en intervalos de 70 ms. `PhotoBanner` y `PageHeading` reutilizan las mismas clases.
+- `useSectionReveal` observa únicamente las secciones principales que están por debajo del viewport, con `IntersectionObserver`. Aparecen suavemente una sola vez; el contenido nunca queda oculto esperando JavaScript. No reinicia con filtros ni enlaces hash. Header y Footer permanecen sin animación.
+- `prefers-reduced-motion` desactiva los efectos; la navegación por teclado no espera animaciones.
+- Ajusta duraciones, distancia y easing en `src/styles/motion.css`. No se añadieron dependencias.
+
+**Actualización de una instalación existente:** utiliza el ZIP de actualización parcial (solo archivos de `src/` y la prueba nueva) para conservar tu `package.json`, `pnpm-lock.yaml`, videos y ajustes locales. Si usas el proyecto completo, no sustituyas los manifiestos de tu repositorio ya sincronizado; si cambian dependencias, ejecuta `pnpm install --no-frozen-lockfile` y confirma ambos archivos. No es necesario actualizar el lockfile con el parche de animación.

@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { Header } from '../components/Header.jsx';
 import { Footer } from '../components/Footer.jsx';
 import { site } from '../config/site.js';
 import { findService } from '../config/services.js';
 import { findNews } from '../config/news.js';
+import { useSectionReveal } from '../hooks/useSectionReveal.js';
 
 const titles = {
   '/': 'Inteligencia que transforma negocios',
@@ -16,6 +17,7 @@ const titles = {
 
 export function MainLayout() {
   const { pathname, hash } = useLocation();
+  const mainRef = useRef(null);
   // Inicio y Quiénes somos tienen panel superior con espacio interno para la navbar.
   const path = pathname.replace(/\/$/, '') || '/';
   const serviceId = path.match(/^\/servicios\/([^/]+)$/)?.[1];
@@ -33,11 +35,13 @@ export function MainLayout() {
     return () => cancelAnimationFrame(frame);
   }, [path, hash]);
 
+  useSectionReveal(mainRef, path);
+
   return (
     <>
       <Header brand={site.brand} navigation={site.navigation} contact={site.contact} />
-      <main id="contenido" tabIndex={-1} className={hasIntegratedHeading ? undefined : 'pt-[clamp(120px,12vw,160px)]'}>
-        <Outlet />
+      <main ref={mainRef} id="contenido" tabIndex={-1} className={hasIntegratedHeading ? undefined : 'pt-[clamp(120px,12vw,160px)]'}>
+        <Outlet key={path} />
       </main>
       <Footer {...site.footer} home={site.brand.home} brandName={site.brand.name} />
     </>

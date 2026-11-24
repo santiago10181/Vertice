@@ -1,0 +1,69 @@
+/* Motion system: solo transform/opacity; ninguna animación bloquea el contenido. */
+:root {
+  --motion-ease: cubic-bezier(.22, 1, .36, 1);
+  --motion-enter: 650ms;
+  --motion-media: 1400ms;
+  --motion-hero-container: 1100ms;
+  --motion-hero-start-scale: .965;
+  --motion-reveal: 620ms;
+  --motion-distance: 14px;
+}
+
+/* Inicio: el panel completo crece hasta su tamaño natural, sin alterar el layout. */
+@keyframes motion-hero-expand {
+  from { transform: scale(var(--motion-hero-start-scale)); }
+  to { transform: scale(1); }
+}
+
+@keyframes motion-media-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.045); }
+}
+@keyframes motion-enter {
+  from { opacity: .35; transform: translateY(var(--motion-distance)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes motion-section-reveal {
+  from { opacity: .55; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .motion-hero-container {
+    animation: motion-hero-expand var(--motion-hero-container) var(--motion-ease);
+    transform-origin: center center;
+  }
+  /* Las portadas fotográficas de servicios conservan su zoom interno. */
+  .motion-hero-media {
+    animation: motion-media-zoom var(--motion-media) var(--motion-ease) both;
+    transform-origin: 65% 50%;
+  }
+  .motion-enter {
+    animation: motion-enter var(--motion-enter) var(--motion-ease) var(--motion-delay, 0ms) backwards;
+  }
+  .motion-step-1 { --motion-delay: 70ms; }
+  .motion-step-2 { --motion-delay: 140ms; }
+  .motion-step-3 { --motion-delay: 210ms; }
+  .motion-step-4 { --motion-delay: 280ms; }
+
+  /* El observador añade el atributo una sola vez, al aproximarse al viewport.
+     Sin JS todo sigue visible; el panel no se oculta esperando un evento. */
+  [data-motion-revealed] {
+    animation: motion-section-reveal var(--motion-reveal) var(--motion-ease);
+  }
+  /* Nunca retrasar la lectura o la interacción al navegar por teclado/anclas. */
+  .motion-hero-container:focus-within,
+  .motion-enter:focus-within,
+  [data-motion-revealed]:focus-within,
+  [data-motion-revealed]:target {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-hero-container, .motion-hero-media, .motion-enter, [data-motion-revealed] {
+    animation: none !important;
+    transform: none;
+    opacity: 1;
+  }
+}
