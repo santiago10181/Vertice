@@ -59,6 +59,8 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
     expect(out).not.toContain('hero-poster.jpg');
     expect(out).not.toContain('hero-final.webp');
     expect(out).toContain('hero-media-surface');
+    expect(out).not.toContain('hero-playback-control');
+    expect(out).not.toContain('<button');
     expect(out).not.toContain('<video');
   });
   it('la nueva sección muestra los cuatro títulos, con el primero seleccionado', () => {

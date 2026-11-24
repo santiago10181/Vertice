@@ -28,10 +28,6 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
   const [seenOnMount] = useState(() => playedSources.has(mp4));
   const [activated, setActivated] = useState(!seenOnMount);
   const [clip, setClip] = useState('main');
-  const [ready, setReady] = useState(false);
-  const [startupExpired, setStartupExpired] = useState(false);
-  const [started, setStarted] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const [finished, setFinished] = useState(false);
   const [failed, setFailed] = useState(false);
   const [autoplay, setAutoplay] = useState(!seenOnMount);
@@ -53,9 +49,6 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     if (reducedMotion) {
       allowPlayback.current = false;
       setAutoplay(false);
-      setPlaying(false);
-      setStarted(false);
-      setReady(false);
       if (playedSources.has(mp4)) {
         setFinished(true);
         setActivated(false);
@@ -76,11 +69,20 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     startupTimer.current = setTimeout(() => {
       // La conexión lenta no cancela el autoplay ni muestra el poster antiguo.
       // El contenido alcanza su tamaño final sin animación; el video puede empezar después.
-      setStartupExpired(true);
       completeEntrance(false);
     }, startupTimeoutMs);
     return () => clearTimeout(startupTimer.current);
   }, [reducedMotion, seenOnMount, mp4, failed, startupTimeoutMs, completeEntrance]);
+
+  // Si el navegador rechaza explícitamente el autoplay, mostrar el respaldo.
+  // No mostrarlo durante una carga lenta.
+  function handleReady(event) {
+    const element = event.currentTarget;
+    if (!allowPlayback.current || !autoplay || !element.paused || element.ended) return;
+    element.play().catch(error => {
+      if (error.name === 'NotAllowedError' && player.current === element) handleError();
+    });
+  }
 
   function handlePlaying(event) {
     if (!allowPlayback.current) {
@@ -88,24 +90,18 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
       return;
     }
     playedSources.add(mp4);
-    setStarted(true);
-    setPlaying(true);
     completeEntrance();
   }
 
   function handleError() {
     setFailed(true);
-    setPlaying(false);
     setFinished(false);
     completeEntrance();
   }
 
   function handleEnded(event) {
-    setPlaying(false);
     rememberFrame(mp4, event.currentTarget);
     if (clip === 'main' && outroMp4) {
-      setReady(false);
-      setStarted(false);
       setAutoplay(true);
       setClip('outro');
       return;
@@ -131,8 +127,6 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     setFinished(false);
     setAutoplay(true);
     if (!activated || clip !== 'main') {
-      setReady(false);
-      setStarted(false);
       setActivated(true);
       setClip('main');
       return;
@@ -140,9 +134,14 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     const element = player.current;
     if (element) {
       element.currentTime = 0;
-      element.play().catch(() => setPlaying(false));
+      element.play().catch(error => {
+        if (error.name === 'NotAllowedError' && player.current === element) {
+          setFailed(true);
+          completeEntrance(false);
+        }
+      });
     }
-  }, [reducedMotion, failed, activated, clip]);
+  }, [reducedMotion, failed, activated, clip, completeEntrance]);
 
   useEffect(() => {
     if (!finished || !Number.isFinite(replayAfterMs) || replayAfterMs <= 0 || reducedMotion !== false) return;
@@ -153,33 +152,10 @@ export function useHeroPlayback(video = {}, onEntranceReady = noop) {
     return () => clearTimeout(timer);
   }, [finished, replayAfterMs, reducedMotion, restart]);
 
-  function togglePlayback() {
-    const element = player.current;
-    if (finished || !element || element.ended) {
-      restart();
-    } else if (!element.paused) {
-      allowPlayback.current = false;
-      setAutoplay(false);
-      element.pause();
-      completeEntrance();
-    } else {
-      allowPlayback.current = true;
-      if (!started) element.currentTime = 0;
-      // Una acción explícita no debe dejar el panel esperando la carga.
-      completeEntrance();
-      element.play().catch(() => {
-        setPlaying(false);
-        completeEntrance();
-      });
-    }
-  }
-
   return {
-    player, currentSrc, shouldRender, autoplay, started, playing, finished,
+    player, currentSrc, shouldRender, autoplay,
     staticFrame: finalFrames.get(mp4),
     showFallback: reducedMotion === true || failed || (!shouldRender && seenOnMount),
-    showControls: Boolean(mp4) && reducedMotion === false && !failed && (ready || seenOnMount || startupExpired),
-    handleReady: () => setReady(true), handlePlaying, handleEnded, handleError,
-    handlePause: () => setPlaying(false), togglePlayback,
+    handleReady, handlePlaying, handleEnded, handleError,
   };
 }

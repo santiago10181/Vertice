@@ -24,23 +24,11 @@ export function HeroBackgroundVideo({ video = {}, onEntranceReady }) {
             tabIndex={-1}
             onLoadedData={playback.handleReady}
             onPlaying={playback.handlePlaying}
-            onPause={playback.handlePause}
             onEnded={playback.handleEnded}
             onError={playback.handleError}
           />
         )}
       </div>
-      {playback.showControls && (
-        <button
-          type="button"
-          onClick={playback.togglePlayback}
-          aria-label={playback.playing ? 'Pausar video de fondo' : 'Reproducir video de fondo'}
-          aria-pressed={playback.playing}
-          className="hero-playback-control absolute right-5 bottom-5 z-30 rounded-full border border-white/45 bg-black/65 px-4 py-2 type-label text-white backdrop-blur-sm transition hover:bg-black/85 focus-visible:outline-white"
-        >
-          {playback.playing ? 'Ⅱ  Pausar' : '▶  Reproducir'}
-        </button>
-      )}
     </div>
   );
 }

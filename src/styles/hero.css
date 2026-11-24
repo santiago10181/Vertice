@@ -1,8 +1,10 @@
-/* Layout del Hero: el video nunca tiene un poster visible durante la carga. */
+/* Un solo Hero en todos los dispositivos. El video ocupa el fondo completo,
+   mientras que el contenido permanece superpuesto y puede crecer en altura. */
 .hero-shell {
-  height: calc(100svh - 46px);
-  min-height: 580px;
-  max-height: 900px;
+  --hero-focus: 100% 50%;
+  --hero-focus-mobile: 75% 50%;
+  display: grid;
+  min-height: clamp(580px, calc(100svh - 46px), 900px);
 }
 .hero-media { position: absolute; inset: 0; }
 .hero-media-surface { overflow: hidden; }
@@ -12,39 +14,36 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right center;
+  object-position: var(--hero-focus);
   display: block;
 }
 .hero-content {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  min-width: 0;
   padding-top: 175px;
   padding-bottom: 80px;
 }
+.hero-shade {
+  background: linear-gradient(90deg, rgb(0 0 0 / .88), rgb(0 0 0 / .52) 48%, transparent 100%),
+              linear-gradient(0deg, rgb(0 0 0 / .56), transparent 60%);
+}
 
-/* Tablets y móviles: no recortar ningún lado del video.
-   Se separan video y contenido, conservando la proporción original 16:9. */
+/* Mismo layout, únicamente cambia el encuadre y el espacio del contenido.
+   Al estar en el flujo, el texto no se corta aunque se amplíe su tamaño. */
 @media (max-width: 1100px), (orientation: portrait) {
-  .hero-shell {
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    padding-top: clamp(108px, 13vw, 145px);
-  }
-  .hero-media {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-  }
-  .hero-media-image { object-fit: contain; object-position: center; }
-  .hero-desktop-shade { display: none; }
+  .hero-shell { min-height: max(540px, calc(100svh - 24px)); }
+  .hero-media-image { object-position: var(--hero-focus-mobile); }
   .hero-content {
-    position: relative;
-    inset: auto;
-    padding-top: clamp(20px, 4vw, 40px);
+    padding-top: clamp(145px, 17vw, 180px);
     padding-bottom: clamp(36px, 6vw, 64px);
   }
+  .hero-shade {
+    background: linear-gradient(90deg, rgb(0 0 0 / .76), rgb(0 0 0 / .22)),
+                linear-gradient(0deg, rgb(0 0 0 / .9), rgb(0 0 0 / .35) 58%, transparent 85%);
+  }
   .hero-title { font-size: clamp(2rem, 5.5vw, 3.75rem); }
-  .hero-playback-control { right: 12px; bottom: 12px; }
+}
+@media (max-width: 480px) {
+  .hero-content { padding-inline: 24px; }
+  .hero-content .hero-title { overflow-wrap: anywhere; }
 }
