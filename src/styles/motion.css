@@ -3,8 +3,10 @@
   --motion-ease: cubic-bezier(.22, 1, .36, 1);
   --motion-enter: 650ms;
   --motion-media: 1400ms;
-  --motion-hero-container: 1100ms;
-  --motion-hero-start-scale: .965;
+  --motion-hero-container: 2400ms;
+  --motion-hero-delay: 120ms;
+  --motion-hero-ease: cubic-bezier(.42, 0, .58, 1);
+  --motion-hero-start-scale: .93;
   --motion-reveal: 620ms;
   --motion-distance: 14px;
 }
@@ -30,7 +32,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .motion-hero-container {
-    animation: motion-hero-expand var(--motion-hero-container) var(--motion-ease);
+    animation: motion-hero-expand var(--motion-hero-container) var(--motion-hero-ease) var(--motion-hero-delay) backwards;
     transform-origin: center center;
   }
   /* Las portadas fotográficas de servicios conservan su zoom interno. */
