@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
  * prefiere reducir el movimiento. Este hook también sirve para otras
  * animaciones que añadamos en futuras secciones.
  */
-export function useReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
+export function useReducedMotion(initialValue = true) {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(initialValue);
 
   useEffect(() => {
     if (!window.matchMedia) {

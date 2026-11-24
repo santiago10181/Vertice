@@ -10,6 +10,7 @@ describe('Motion system', () => {
   it('amplía el contenedor completo del Hero y conserva la entrada escalonada', () => {
     const html = renderPath('/');
     expect(html).toMatch(/<section[^>]*id="inicio"[^>]*class="[^"]*motion-hero-container/);
+    expect(html).toContain('data-hero-entrance="waiting"');
     expect(html).not.toContain('motion-hero-media');
     expect(html).toContain('motion-enter motion-step-2');
     expect(html).toContain('motion-enter motion-step-4');

@@ -21,6 +21,9 @@ export const site = {
       // Para activar el cierre de 5 segundos con la V, exporta y coloca
       // public/videos/hero-outro.mp4 y añade: outroMp4: '/videos/hero-outro.mp4',
       poster: '/images/hero-poster.jpg',
+      finalPoster: '/images/hero-final.webp',
+      replayAfterMs: 0, // 120_000 para repetir dos minutos después de terminar.
+      startupTimeoutMs: 2500,
     },
     eyebrow: 'TECNOLOGÍA + INTELIGENCIA ARTIFICIAL',
     headingLines: ['Inteligencia que', 'transforma negocios.'],

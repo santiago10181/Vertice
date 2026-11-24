@@ -51,6 +51,8 @@ describe('Landing Vértice: JSX, DRY y arquitectura', () => {
     expect(out).toContain('EXPLORAR SOLUCIONES');
     expect(site.hero.video.mp4).toBe('/videos/hero.mp4');
     expect(existsSync('public/videos/hero.mp4')).toBe(true);
+    expect(site.hero.video.replayAfterMs).toBe(0);
+    expect(existsSync(`public${site.hero.video.finalPoster}`)).toBe(true);
   });
   it('el video tiene poster y no carga cuando SSR desconoce la preferencia de movimiento', () => {
     const out = html(<HeroBackgroundVideo video={site.hero.video} />);

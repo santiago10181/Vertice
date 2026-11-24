@@ -4,7 +4,7 @@
   --motion-enter: 650ms;
   --motion-media: 1400ms;
   --motion-hero-container: 2400ms;
-  --motion-hero-delay: 120ms;
+  --motion-hero-delay: 0ms;
   --motion-hero-ease: cubic-bezier(.42, 0, .58, 1);
   --motion-hero-start-scale: .93;
   --motion-reveal: 620ms;
@@ -31,7 +31,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .motion-hero-container {
+  .motion-hero-container[data-hero-entrance="waiting"] {
+    transform: scale(var(--motion-hero-start-scale));
+    transform-origin: center center;
+  }
+  .motion-hero-container[data-hero-entrance="ready"] {
     animation: motion-hero-expand var(--motion-hero-container) var(--motion-hero-ease) var(--motion-hero-delay) backwards;
     transform-origin: center center;
   }
@@ -42,6 +46,10 @@
   }
   .motion-enter {
     animation: motion-enter var(--motion-enter) var(--motion-ease) var(--motion-delay, 0ms) backwards;
+  }
+  .motion-hero-container[data-hero-entrance="waiting"] .motion-enter,
+  .motion-hero-container[data-hero-entrance="static"] .motion-enter {
+    animation: none;
   }
   .motion-step-1 { --motion-delay: 70ms; }
   .motion-step-2 { --motion-delay: 140ms; }
@@ -54,11 +62,12 @@
     animation: motion-section-reveal var(--motion-reveal) var(--motion-ease);
   }
   /* Nunca retrasar la lectura o la interacción al navegar por teclado/anclas. */
-  .motion-hero-container:focus-within,
+  .motion-hero-container[data-hero-entrance]:focus-within,
   .motion-enter:focus-within,
   [data-motion-revealed]:focus-within,
   [data-motion-revealed]:target {
     animation: none;
+    transform: none;
   }
 }
 
